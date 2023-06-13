@@ -8,6 +8,8 @@ Data = pd.read_excel('Data.xlsx')
 df_data = Data["Kuantitas"]
 print(df_data)
 
+print("\n")
+
 # # Drop missing values and reset index
 # df_clean = df_data.dropna().reset_index(drop=True)
 
@@ -22,6 +24,8 @@ print("Max =", nilai_max)
 print("Range = ", nilai_range)
 print("Jangkauan = ", nilai_jangkauan)
 
+print("\n")
+
 # Mencari nilai prediksi
 Prediksi = []
 
@@ -35,18 +39,113 @@ for i in range (len(df_data)):
     elif df_data[i] >= 2257.667 :
         # Data['Prediksi'] = Prediksi.append('B')
         Prediksi.append('B')
-    Data['Prediksi'] = Prediksi[i]
+print("Prediksi = ", Prediksi)
 
+# Menghitung Jumlah Prediksi
+jumlah_s, jumlah_c, jumlah_b = 0, 0, 0
 
-# Menghitung nilai prediksi
+for i in range(len(Prediksi)):
+    Data['Prediksi'] = Prediksi
+    if(Prediksi[i] == "S"):
+        jumlah_s += 1
+    elif(Prediksi[i] == "C"):
+        jumlah_c += 1
+    elif(Prediksi[i] == "B"):
+        jumlah_b += 1
 
-df_data = Data["Prediksi"]
-print(df_data)
+print("Jumlah S = ", jumlah_s)
+print("Jumlah C = ", jumlah_c)
+print("Jumlah B = ", jumlah_b)
 
-# for i in range(len(Prediksi)):
-#     Data['Prediksi'] = Prediksi[i]
-#     # Data.insert(2, 'Prediksi', [Prediksi[i]])
+total = jumlah_b + jumlah_c + jumlah_s
+print("Total = ", total)
 
-# print(Data)
-# # Add a new column using square bracket notation
-# Data['Prediksi'] = for i in range (len(Prediksi))
+print("\n")
+
+# Menghitung probabilitas awal
+probabilitas_s = jumlah_s / total
+probabilitas_c = jumlah_c / total
+probabilitas_b = jumlah_b / total
+
+print("Probabilitas S = ", probabilitas_s)
+print("Probabilitas C = ", probabilitas_c)
+print("Probabilitas B = ", probabilitas_b)
+
+print("\n")
+
+# Menghitung transisi
+transis_ss, transis_sc, transis_sb = 0, 0, 0
+transis_cs, transis_cc, transis_cb = 0, 0, 0
+transis_bs, transis_bc, transis_bb = 0, 0, 0
+
+for i in range(len(Prediksi) - 1):
+    if Prediksi[i] == "S" and Prediksi[i + 1] == "S":
+        transis_ss += 1
+    elif Prediksi[i] == "S" and Prediksi[i + 1] == "C":
+        transis_sc += 1
+    elif Prediksi[i] == "S" and Prediksi[i + 1] == "B":
+        transis_sb += 1
+    elif Prediksi[i] == "C" and Prediksi[i + 1] == "S":
+        transis_cs += 1
+    elif Prediksi[i] == "C" and Prediksi[i + 1] == "C":
+        transis_cc += 1
+    elif Prediksi[i] == "C" and Prediksi[i + 1] == "B":
+        transis_cb += 1
+    elif Prediksi[i] == "B" and Prediksi[i + 1] == "S":
+        transis_bs += 1
+    elif Prediksi[i] == "B" and Prediksi[i + 1] == "C":
+        transis_bc += 1
+    elif Prediksi[i] == "B" and Prediksi[i + 1] == "B":
+        transis_bb += 1
+
+print("Transisi SS = ", transis_ss)
+print("Transisi SC = ", transis_sc)
+print("Transisi SB = ", transis_sb)
+
+print("Transisi CS = ", transis_cs)
+print("Transisi CC = ", transis_cc)
+print("Transisi CB = ", transis_cb)
+
+print("Transisi BS = ", transis_bs)
+print("Transisi BC = ", transis_bc)
+print("Transisi BB = ", transis_bb)
+
+total_transisi = transis_ss + transis_sc + transis_sb + transis_cs + transis_cc + transis_cb + transis_bs + transis_bc + transis_bb
+print("Total Transisi = ", total_transisi)
+
+print("\n")
+
+# Menghitung probabilitas setiap transisi
+total_scb = transis_ss + transis_sc + transis_sb
+total_csb = transis_cs + transis_cc + transis_cb
+total_bsc = transis_bs + transis_bc + transis_bb
+
+# print(total_scb)
+# print(total_csb)
+# print(total_bsc)
+
+probabilitas_ss = transis_ss / total_scb
+probabilitas_sc = transis_sc / total_scb
+probabilitas_sb = transis_sb / total_scb
+
+probabilitas_cs = transis_cs / total_csb
+probabilitas_cc = transis_cc / total_csb
+probabilitas_cb = transis_cb / total_csb
+
+probabilitas_bs = transis_bs / total_bsc
+probabilitas_bc = transis_bc / total_bsc
+probabilitas_bb = transis_bb / total_bsc
+
+print("probabilitas Transisi SS = ", probabilitas_ss)
+print("probabilitas Transisi SC = ", probabilitas_sc)
+print("probabilitas Transisi SB = ", probabilitas_sb)
+
+print("probabilitas Transisi CS = ", probabilitas_cs)
+print("probabilitas Transisi CC = ", probabilitas_cc)
+print("probabilitas Transisi CB = ", probabilitas_cb)
+
+print("probabilitas Transisi BS = ", probabilitas_bs)
+print("probabilitas Transisi BC = ", probabilitas_bc)
+print("probabilitas Transisi BB = ", probabilitas_bb)
+
+print("\n")

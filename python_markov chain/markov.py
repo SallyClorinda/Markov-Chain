@@ -18,29 +18,66 @@ df_reset = df_clean.reset_index()
 df_reset = df_reset.drop('index',axis=1)
 print(df_reset)
 
-
+print("\n")
 
 # # df_transposed = df_reset.transpose()
 # # print(df_transposed)
 
 # menghitung data banyaknya label C, M, H
 count_c = df_reset.applymap(lambda x: str(x).lower().count('c') if isinstance(x, str) else 0).sum().sum()
-print(count_c)
+print("Jumlah Kemunculan C = ", count_c)
 count_m = df_reset.applymap(lambda x: str(x).lower().count('m') if isinstance(x, str) else 0).sum().sum()
-print(count_m)
+print("Jumlah Kemunculan M = ", count_m)
 count_h = df_reset.applymap(lambda x: str(x).lower().count('h') if isinstance(x, str) else 0).sum().sum()
-print(count_h)
+print("Jumlah Kemunculan H = ", count_h)
 
 total_data = count_c+count_m+count_h
-print(total_data)
+print("Total Data = ", total_data)
+
+print("\n")
 
 # menghitung peluang awal
 p_c = count_c/total_data
-print(p_c)
+print("Probablilitas Cerah = ", p_c)
 p_m = count_m/total_data
-print(p_m)
+print("Probablilitas Mendung = ", p_m)
 p_h = count_h/total_data
-print(p_h)
+print("Probablilitas Hujan = ", p_h)
+
+print("\n")
+
+count_cc = 0
+for i in range(len(df_reset)):
+    for j in range(len(df_reset.columns) - 1):
+        if df_reset.iloc[i][j+1] == 'C' and df_reset.iloc[i][j+1] == 'M':
+        # baca = df_reset.iloc[i, j]
+        # if baca == 'C' and baca == 'C':
+            count_cc += 1
+print("count cc = ", count_cc)
+
+# count_cc = 0
+# for i in range(len(df_reset.columns)):
+#     for j in range(len(df_reset)):
+#         # baca = df_reset.iloc[i][j]
+#         # if baca == 'H' and baca == 'C':
+#         if df_reset.iloc[j][i] == 'C' and df_reset.iloc[j][i] == 'C':
+#             count_cc += 1
+# print("count cc =", count_cc)
+
+#Menghitung keterkaitan antara jumlah angka 'C' dan 'C' berikutnya
+# count_cc = 0
+# for i in range(len(df_reset.columns)):
+#     for j in range(len(df_reset)):
+#         if i == 'C' and j == 'C':
+#             count_cc += 1
+#         # if df_reset.iloc[i][j] == 'C' and df_reset.iloc[i][j] == 'C':
+#         #     count_cc += 1
+#         # if df_reset.iloc[i][j] == 'C' and df_reset.iloc[i][j] == 'C':
+#         #     count_cc += 1
+# # Menampilkan hasil
+# print("\nJumlah Kemunculan Pola 'C' ke 'C' Berikutnya:", count_cc)
+
+
 
 
 # # for baris in range(len(df_reset)):
@@ -51,18 +88,20 @@ print(p_h)
 
 # Mengakses baris tertentu
 # for baris in df_reset:
-baris = df_reset.loc[1][2]
-# print(baris)
-# baris_1 = df_reset.loc[1]
-# baris_2 = df_reset.loc[2]
-# baris_3 = df_reset.loc[3]
-count_cc = 0
-for baris in range(len(df_reset)):
-    for kolom in range(len(df_reset.columns)):
-        baca = df_reset.iloc[baris, kolom]
-        if df_reset.iloc[baris][0] == 'C' and df_reset.iloc[baris][0+1] == 'C':
-            count_cc += 1
-print("count cc = ", count_cc)
+# baris = df_reset.loc[1][2]
+# # print(baris)
+# # baris_1 = df_reset.loc[1]
+# # baris_2 = df_reset.loc[2]
+# # baris_3 = df_reset.loc[3]
+# count_cc = 0
+# for baris in range(len(df_reset)):
+#     for kolom in range(len(df_reset.columns)):
+#         baca = df_reset.iloc[baris, kolom]
+#         if df_reset.iloc[baca] == 'C' and df_reset.iloc[baca] == 'M':
+#             count_cc += 1
+# print("count cc = ", count_cc)
+
+
 
 
 

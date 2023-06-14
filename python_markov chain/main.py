@@ -1,6 +1,7 @@
 import pandas as pd
 from openpyxl import load_workbook
 import numpy as np
+from scipy.linalg import solve
 
 # Baca Data Excel
 Data = pd.read_excel('Data.xlsx')
@@ -170,3 +171,68 @@ prediksi_b = probabilitas_ss * probabilitas_ss * probabilitas_ss
 print("Probabilitas Jumlah Saat Ini (S) Selama 2 Tahun Berturut-Turut = ", prediksi_b)
 
 print("\n")
+
+# Menghitung steady state
+
+# Definisikan matriks awal
+P_current = np.copy(matrix_transisi)
+P_previous = np.zeros_like(matrix_transisi)
+
+# Inisialisasi counter iterasi
+iteration = 1
+
+# Toleransi untuk perbedaan antara matriks saat ini dan matriks sebelumnya
+tolerance = 1e-5
+
+# Perulangan hingga mencapai konvergensi atau keadaan di mana matriks saat ini memiliki semua elemen yang sama dengan matriks sebelumnya
+while np.max(np.abs(P_current - P_previous)) > tolerance:
+    P_previous = np.copy(P_current)
+    P_current = np.dot(P_current, matrix_transisi)
+    iteration += 1
+    
+    # Cetak matriks setelah setiap iterasi
+    print("Iterasi", iteration-1)
+    print(P_current)
+    print()
+
+# Cetak hasil matriks distribusi stasioner yang konvergen
+print("Distribusi Stasioner (Konvergen) setelah", iteration-1, "iterasi:")
+print(P_previous)
+print("\n")
+
+# Lanjutkan iterasi setelah mencapai matriks steady state
+max_iterations = 3  # Jumlah iterasi tambahan yang diinginkan
+for i in range(max_iterations):
+    P_current = np.dot(P_current, matrix_transisi)
+    iteration += 1
+
+    # Cetak matriks setelah setiap iterasi tambahan
+    print("Iterasi", iteration-1)
+    print(P_current)
+    print()
+
+
+# # Alternatif perhitungan untuk steady state
+# current_state = np.array([0.25, 0.25, 0.5]) # Inisialisasi vektor awal
+
+# tolerance = 1e-6 # Toleransi untuk kondisi steady state
+
+# iteration = 0 # Iterasi hingga mencapai kondisi steady state
+# while True:
+#     # Menghitung next_state dengan mengalikan current_state dengan transition_matrix
+#     next_state = np.dot(current_state, matrix_transisi)
+
+#     # Memeriksa apakah perbedaan absolut antara next_state dan current_state kurang dari toleransi
+#     if np.max(np.abs(next_state - current_state)) < tolerance:
+#         break
+
+#     # Memperbarui current_state dengan next_state
+#     current_state = next_state
+
+#     # Meningkatkan iterasi
+#     iteration += 1
+
+# # Menampilkan informasi steady state
+# print("Sistem mencapai steady state pada iterasi ke:", iteration)
+# print("Nilai steady state:")
+# print(current_state)

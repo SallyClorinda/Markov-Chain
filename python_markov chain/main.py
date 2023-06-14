@@ -1,5 +1,6 @@
 import pandas as pd
 from openpyxl import load_workbook
+import numpy as np
 
 # Baca Data Excel
 Data = pd.read_excel('Data.xlsx')
@@ -147,5 +148,25 @@ print("probabilitas Transisi CB = ", probabilitas_cb)
 print("probabilitas Transisi BS = ", probabilitas_bs)
 print("probabilitas Transisi BC = ", probabilitas_bc)
 print("probabilitas Transisi BB = ", probabilitas_bb)
+
+print("\n")
+
+# Membuat hasil dalam bentuk matrix
+matrix_transisi = np.array([[probabilitas_ss, probabilitas_sc, probabilitas_sb], 
+                            [probabilitas_cs, probabilitas_cc, probabilitas_cb],
+                            [probabilitas_bs, probabilitas_bc, probabilitas_bb]])
+print("Matrix Transisi: ")
+print(matrix_transisi)
+
+print("\n")
+
+
+# Menghitung probabilitas panen dalam jumlah sedikit selama 3 tahun berturut-turut
+prediksi_a = probabilitas_s * probabilitas_ss * probabilitas_ss
+print("Probabilitas Jumlah (S) Selama 3 Tahun Berturut-Turut = ", prediksi_a)
+
+# Menghitung probabilitas apabila saat ini sedikit maka peluang panen kondisi sedikit selama 2 tahun berturut-turut
+prediksi_b = probabilitas_ss * probabilitas_ss * probabilitas_ss
+print("Probabilitas Jumlah Saat Ini (S) Selama 2 Tahun Berturut-Turut = ", prediksi_b)
 
 print("\n")

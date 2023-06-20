@@ -170,50 +170,102 @@ print("Probabilitas Jumlah (S) Selama 3 Tahun Berturut-Turut = ", prediksi_a)
 prediksi_b = probabilitas_ss * probabilitas_ss * probabilitas_ss
 print("Probabilitas Jumlah Saat Ini (S) Selama 2 Tahun Berturut-Turut = ", prediksi_b)
 
+# Menghitung probabilitas apabila saat ini banyak maka peluang panen kondisi banyak selama 3 tahun berturut-turut
+prediksi_c = probabilitas_bb * probabilitas_bb * probabilitas_bb * probabilitas_bb
+print("Probabilitas Jumlah Saat Ini (S) Selama 2 Tahun Berturut-Turut = ", prediksi_c)
+
 print("\n")
 
-# Menghitung steady state
+# # Steady State
+# # Matriks transisi contoh
+# matrix_transpose = np.transpose(matrix_transisi)
+# print(matrix_transpose)
+# # new_matrix = np.zeros_like(matrix_transisi)
+# new_matrix = []
 
-# Definisikan matriks awal
-P_current = np.copy(matrix_transisi)
-P_previous = np.zeros_like(matrix_transisi)
+# for i in range(100):
+#     new_matrix = matrix_transisi.dot(matrix_transpose)
+#     if(new_matrix[i] == new_matrix[i-1]):
+#         print("Berhasil Pada indeks ke ", i)
+#         print(new_matrix)
 
-# Inisialisasi counter iterasi
-iteration = 1
+# previous_matrix = np.zeros_like(matrix_transisi)
+# for i in range(100):
+#     new_matrix = matrix_transisi.dot(matrix_transisi)
+#     print("Iterasi ke", i)
+#     print(previous_matrix)
+#     if np.array_equal(new_matrix, previous_matrix):
+#         print("Berhasil Pada indeks ke", i)
+#         print(previous_matrix)
+#         break
+#     previous_matrix = new_matrix
 
-# Toleransi untuk perbedaan antara matriks saat ini dan matriks sebelumnya
-tolerance = 1e-5
+# else:
+#     print("Tidak konvergen ke steady state dalam jumlah iterasi maksimum.")
 
-# Perulangan hingga mencapai konvergensi atau keadaan di mana matriks saat ini memiliki semua elemen yang sama dengan matriks sebelumnya
-while np.max(np.abs(P_current - P_previous)) > tolerance:
-    P_previous = np.copy(P_current)
-    P_current = np.dot(P_current, matrix_transisi)
-    iteration += 1
+
+
+previous_matrix = None
+
+for i in range(100):
+    new_matrix = np.dot(matrix_transisi, matrix_transisi)
+    print("Iterasi ke", i)
+    print(new_matrix)
+    if previous_matrix is not None and np.array_equal(new_matrix, previous_matrix):
+        print("Berhasil Pada indeks ke", i)
+        print(new_matrix)
+        break
+    previous_matrix = new_matrix
+    matrix_transisi = new_matrix
+else:
+    print("Tidak konvergen ke steady state dalam jumlah iterasi maksimum.")
+
+
+
+
+#Menghitung steady state
+
+# # Definisikan matriks awal
+# P_current = np.copy(matrix_transisi)
+# P_previous = np.zeros_like(matrix_transisi)
+
+# # Inisialisasi counter iterasi
+# iteration = 1
+
+# # Toleransi untuk perbedaan antara matriks saat ini dan matriks sebelumnya
+# tolerance = 1e-5
+
+# # Perulangan hingga mencapai konvergensi atau keadaan di mana matriks saat ini memiliki semua elemen yang sama dengan matriks sebelumnya
+# while np.max(np.abs(P_current - P_previous)) > tolerance:
+#     P_previous = np.copy(P_current)
+#     P_current = np.dot(P_current, matrix_transisi)
+#     iteration += 1
     
-    # Cetak matriks setelah setiap iterasi
-    print("Iterasi", iteration-1)
-    print(P_current)
-    print()
+#     # Cetak matriks setelah setiap iterasi
+#     print("Iterasi", iteration-1)
+#     print(P_current)
+#     print()
 
-# Cetak hasil matriks distribusi stasioner yang konvergen
-print("Distribusi Stasioner (Konvergen) setelah", iteration-1, "iterasi:")
-print(P_previous)
-print("\n")
+# # Cetak hasil matriks distribusi stasioner yang konvergen
+# print("Distribusi Stasioner (Konvergen) setelah", iteration-1, "iterasi:")
+# print(P_previous)
+# print("\n")
 
-# Lanjutkan iterasi setelah mencapai matriks steady state
-max_iterations = 3  # Jumlah iterasi tambahan yang diinginkan
-for i in range(max_iterations):
-    P_current = np.dot(P_current, matrix_transisi)
-    iteration += 1
+# # Lanjutkan iterasi setelah mencapai matriks steady state
+# max_iterations = 6  # Jumlah iterasi tambahan yang diinginkan
+# for i in range(max_iterations):
+#     P_current = np.dot(P_current, matrix_transisi)
+#     iteration += 1
 
-    # Cetak matriks setelah setiap iterasi tambahan
-    print("Iterasi", iteration-1)
-    print(P_current)
-    print()
+#     # Cetak matriks setelah setiap iterasi tambahan
+#     print("Iterasi", iteration-1)
+#     print(P_current)
+#     print()
 
 
-# # Alternatif perhitungan untuk steady state
-# current_state = np.array([0.25, 0.25, 0.5]) # Inisialisasi vektor awal
+# Alternatif perhitungan untuk steady state
+# # current_state = np.array([0.25, 0.25, 0.5]) # Inisialisasi vektor awal
+# current_state = np.array([0.863636, 0.090909, 0.045455]) # Inisialisasi vektor awal
 
 # tolerance = 1e-6 # Toleransi untuk kondisi steady state
 

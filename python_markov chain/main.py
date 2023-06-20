@@ -176,18 +176,21 @@ print("Probabilitas Jumlah Saat Ini (S) Selama 2 Tahun Berturut-Turut = ", predi
 
 print("\n")
 
-# # Steady State
-# # Matriks transisi contoh
+# Steady State
+# Matriks transisi contoh
 # matrix_transpose = np.transpose(matrix_transisi)
 # print(matrix_transpose)
-# # new_matrix = np.zeros_like(matrix_transisi)
-# new_matrix = []
+# new_matrix = np.zeros_like(matrix_transisi)
 
 # for i in range(100):
-#     new_matrix = matrix_transisi.dot(matrix_transpose)
-#     if(new_matrix[i] == new_matrix[i-1]):
-#         print("Berhasil Pada indeks ke ", i)
-#         print(new_matrix)
+#     new_matrix = matrix_transisi.dot(matrix_transisi)
+#     print("Berhasil Pada indeks ke ", i)
+#     print(new_matrix)
+#     if (new_matrix.any(i) == new_matrix.any(i-1)):
+#         break
+    # if(new_matrix[i] == new_matrix[i-1]):
+    #     print("Berhasil Pada indeks ke ", i)
+    #     print(new_matrix)
 
 # previous_matrix = np.zeros_like(matrix_transisi)
 # for i in range(100):
@@ -204,21 +207,23 @@ print("\n")
 #     print("Tidak konvergen ke steady state dalam jumlah iterasi maksimum.")
 
 
+# Matrix = matrix_transisi.dot(matrix_transisi)
+# print(Matrix)
 
-previous_matrix = None
+# previous_matrix = None
 
-for i in range(100):
-    new_matrix = np.dot(matrix_transisi, matrix_transisi)
-    print("Iterasi ke", i)
-    print(new_matrix)
-    if previous_matrix is not None and np.array_equal(new_matrix, previous_matrix):
-        print("Berhasil Pada indeks ke", i)
-        print(new_matrix)
-        break
-    previous_matrix = new_matrix
-    matrix_transisi = new_matrix
-else:
-    print("Tidak konvergen ke steady state dalam jumlah iterasi maksimum.")
+# for i in range(100):
+#     matrix_baru = matrix_transisi.dot(matrix_transisi)
+#     print("Iterasi ke", i)
+#     print(matrix_baru)
+#     if previous_matrix is not None and np.array_equal(matrix_baru, previous_matrix):
+#         print("Berhasil Pada indeks ke", i)
+#         print(matrix_baru)
+#         break
+#     previous_matrix = matrix_baru
+#     matrix_transisi = matrix_baru
+# else:
+#     print("Tidak konvergen ke steady state dalam jumlah iterasi maksimum.")
 
 
 
@@ -288,3 +293,42 @@ else:
 # print("Sistem mencapai steady state pada iterasi ke:", iteration)
 # print("Nilai steady state:")
 # print(current_state)
+
+
+# Definisikan matriks awal
+P_current = np.copy(matrix_transisi)
+P_previous = np.zeros_like(matrix_transisi)
+
+# Inisialisasi counter iterasi
+iteration = 1
+
+# Perulangan hingga mencapai konvergensi atau keadaan di mana matriks saat ini memiliki semua elemen yang sama dengan matriks sebelumnya
+while True:
+    P_previous = np.copy(P_current)
+    P_current = np.dot(P_current, matrix_transisi)
+    iteration += 1
+    
+    # Cetak matriks setelah setiap iterasi
+    print("Iterasi", iteration-1)
+    print(P_current)
+    print()
+    
+    # Periksa konvergensi
+    if np.array_equal(P_current, P_previous):
+        break
+
+# Cetak hasil matriks distribusi stasioner yang konvergen
+print("Distribusi Stasioner (Konvergen) setelah", iteration-1, "iterasi:")
+print(P_previous)
+print("\n")
+
+# Lanjutkan iterasi setelah mencapai matriks steady state
+max_iterations = 6  # Jumlah iterasi tambahan yang diinginkan
+for i in range(max_iterations):
+    P_current = np.dot(P_current, matrix_transisi)
+    iteration += 1
+
+    # Cetak matriks setelah setiap iterasi tambahan
+    print("Iterasi", iteration-1)
+    print(P_current)
+    print()

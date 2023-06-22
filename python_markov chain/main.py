@@ -168,9 +168,9 @@ print("Probabilitas Jumlah (S) Selama 3 Tahun Berturut-Turut = ", prediksi_a)
 prediksi_b = probabilitas_ss * probabilitas_ss * probabilitas_ss
 print("Probabilitas Jumlah Saat Ini (S) Selama 2 Tahun Berturut-Turut = ", prediksi_b)
 
-# Menghitung probabilitas apabila saat ini banyak maka peluang panen kondisi banyak selama 3 tahun berturut-turut
-prediksi_c = probabilitas_bb * probabilitas_bb * probabilitas_bb * probabilitas_bb
-print("Probabilitas Jumlah Saat Ini (S) Selama 2 Tahun Berturut-Turut = ", prediksi_c)
+# # Menghitung probabilitas apabila saat ini banyak maka peluang panen kondisi banyak selama 3 tahun berturut-turut
+# prediksi_c = probabilitas_bb * probabilitas_bb * probabilitas_bb * probabilitas_bb
+# print("Probabilitas Jumlah Saat Ini (S) Selama 2 Tahun Berturut-Turut = ", prediksi_c)
 
 print("\n")
 

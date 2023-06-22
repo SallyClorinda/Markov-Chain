@@ -1,7 +1,5 @@
 import pandas as pd
-from openpyxl import load_workbook
 import numpy as np
-from scipy.linalg import solve
 
 # Baca Data Excel
 Data = pd.read_excel('Data.xlsx')
